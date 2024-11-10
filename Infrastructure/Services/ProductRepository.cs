@@ -10,7 +10,7 @@ internal sealed class ProductRepository : IProductRepository
         """
             DELETE
             FROM
-                [dbo].[Products]
+                [dbo].[Product]
             WHERE
                 [Id] = @Id;
         """;
@@ -25,7 +25,7 @@ internal sealed class ProductRepository : IProductRepository
                 [ValidFrom],
                 [ValidTo]
             FROM
-                [dbo].[Products];
+                [dbo].[Product];
         """;
 
     private const string GET_BY_ID_QUERY =
@@ -37,7 +37,7 @@ internal sealed class ProductRepository : IProductRepository
                 [ValidFrom],
                 [ValidTo]
             FROM
-                [dbo].[Products]
+                [dbo].[Product]
             WHERE
                 [Id] = @Id;
         """;
@@ -51,7 +51,7 @@ internal sealed class ProductRepository : IProductRepository
                 [ValidFrom],
                 [ValidTo]
             FROM
-                [dbo].[Products]
+                [dbo].[Product]
             FOR SYSTEM_TIME ALL
             WHERE
                 [Id] = @Id
@@ -61,7 +61,7 @@ internal sealed class ProductRepository : IProductRepository
 
     private const string INSERT_COMMAND =
         """
-            INSERT INTO [dbo].[Products]
+            INSERT INTO [dbo].[Product]
             (
                 [Name],
                 [Price]
@@ -75,7 +75,7 @@ internal sealed class ProductRepository : IProductRepository
 
     private const string UPDATE_COMMAND =
         """
-            UPDATE [dbo].[Products]
+            UPDATE [dbo].[Product]
             SET
                 [Name] = @Name,
                 [Price] = @Price
