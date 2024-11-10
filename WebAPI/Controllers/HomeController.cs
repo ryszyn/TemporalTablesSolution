@@ -32,7 +32,7 @@ public class ProductController : ControllerBase
 
         var name = nameof(this.AddAsync);
 
-        return this.CreatedAtAction(name, new { id = product.Id }, productDto);
+        return this.Created();
     }
 
     // DELETE: api/products/{id}

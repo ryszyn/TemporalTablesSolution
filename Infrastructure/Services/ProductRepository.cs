@@ -18,11 +18,11 @@ internal sealed class ProductRepository : IProductRepository
     private const string GET_ALL_QUERY =
         """
             SELECT
-                [Id],
-                [Name],
-                [Price],
-                [ValidFrom],
-                [ValidTo]
+                 [Id]
+                ,[Name]
+                ,[Price]
+                ,[ValidFrom]
+                ,[ValidTo]
             FROM
                 [dbo].[Product];
         """;
@@ -30,11 +30,11 @@ internal sealed class ProductRepository : IProductRepository
     private const string GET_BY_ID_QUERY =
         """
             SELECT
-                [Id],
-                [Name],
-                [Price],
-                [ValidFrom],
-                [ValidTo]
+                 [Id]
+                ,[Name]
+                ,[Price]
+                ,[ValidFrom]
+                ,[ValidTo]
             FROM
                 [dbo].[Product]
             WHERE
@@ -44,11 +44,11 @@ internal sealed class ProductRepository : IProductRepository
     private const string GET_HISTORY_QUERY =
         """
             SELECT
-                [Id],
-                [Name],
-                [Price],
-                [ValidFrom],
-                [ValidTo]
+                 [Id]
+                ,[Name]
+                ,[Price]
+                ,[ValidFrom]
+                ,[ValidTo]
             FROM
                 [dbo].[Product]
             FOR SYSTEM_TIME ALL
@@ -62,12 +62,13 @@ internal sealed class ProductRepository : IProductRepository
         """
             INSERT INTO [dbo].[Product]
             (
-                [Id],
-                [Name],
-                [Price]
+                 [Id]
+                ,[Name]
+                ,[Price]
             )
             VALUES
             (
+                @Id,
                 @Name,
                 @Price
             );
@@ -77,8 +78,8 @@ internal sealed class ProductRepository : IProductRepository
         """
             UPDATE [dbo].[Product]
             SET
-                [Name] = @Name,
-                [Price] = @Price
+                 [Name] = @Name
+                ,[Price] = @Price
             WHERE
                 [Id] = @Id;
         """;
