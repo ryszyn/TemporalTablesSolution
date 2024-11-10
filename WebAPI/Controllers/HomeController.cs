@@ -19,8 +19,11 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> AddAsync([FromBody] ProductDto productDto, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"Received productDto: {productDto.Id}, {productDto.Name}, {productDto.Price}");
+
         var product = new Product
         {
+            Id = productDto.Id,
             Name = productDto.Name,
             Price = productDto.Price,
         };
@@ -34,7 +37,7 @@ public class ProductController : ControllerBase
 
     // DELETE: api/products/{id}
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
         var product = await this.productRepository.GetAsync(id, cancellationToken);
 
@@ -68,7 +71,7 @@ public class ProductController : ControllerBase
 
     // GET: api/products/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductDto>> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         var product = await this.productRepository.GetAsync(id, cancellationToken);
 
@@ -91,7 +94,7 @@ public class ProductController : ControllerBase
 
     // GET: api/products/{id}/history
     [HttpGet("{id}/history")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetHistoryAsync(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
     {
         var history = await this.productRepository.GetHistoryAsync(id, cancellationToken);
 
@@ -109,7 +112,7 @@ public class ProductController : ControllerBase
 
     // PUT: api/products/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync(int id, [FromBody] ProductDto productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductDto productDto, CancellationToken cancellationToken)
     {
         var existingProduct = await this.productRepository.GetAsync(id, cancellationToken);
 

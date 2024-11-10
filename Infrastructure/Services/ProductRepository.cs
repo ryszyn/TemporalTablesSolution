@@ -15,7 +15,6 @@ internal sealed class ProductRepository : IProductRepository
                 [Id] = @Id;
         """;
 
-    // Zapytania SQL
     private const string GET_ALL_QUERY =
         """
             SELECT
@@ -63,6 +62,7 @@ internal sealed class ProductRepository : IProductRepository
         """
             INSERT INTO [dbo].[Product]
             (
+                [Id],
                 [Name],
                 [Price]
             )
@@ -97,6 +97,7 @@ internal sealed class ProductRepository : IProductRepository
     {
         var dbModel = new
         {
+            product.Id,
             product.Name,
             product.Price,
         };
@@ -104,7 +105,7 @@ internal sealed class ProductRepository : IProductRepository
         await this.dbEngine.ExecuteAsync(this.connectionString, INSERT_COMMAND, dbModel, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -121,7 +122,7 @@ internal sealed class ProductRepository : IProductRepository
         return products;
     }
 
-    public async Task<Product?> GetAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Product?> GetAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
@@ -133,7 +134,7 @@ internal sealed class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task<IEnumerable<Product>> GetHistoryAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Product>> GetHistoryAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var parameters = new
         {
