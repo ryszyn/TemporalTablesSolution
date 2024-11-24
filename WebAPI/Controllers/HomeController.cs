@@ -1,6 +1,7 @@
 ﻿namespace WebAPI.Controllers;
 
 using Application.Commands;
+using Application.Queries;
 using Application.QueryResults;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -52,18 +53,9 @@ public class ProductController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductResult>>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var products = await this.productRepository.GetAllAsync(cancellationToken);
+        var products = await this.mediator.Send(new GetAllProductsQuery(), cancellationToken);
 
-        var product = products.Select(p => new Product
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = p.Price,
-            ValidFrom = p.ValidFrom,
-            ValidTo = p.ValidTo,
-        }).ToList();
-
-        return this.Ok(product);
+        return this.Ok(products);
     }
 
     // GET: api/products/{id}
