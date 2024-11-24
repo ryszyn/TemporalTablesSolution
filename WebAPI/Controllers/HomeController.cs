@@ -1,9 +1,8 @@
 ﻿namespace WebApi.Controllers;
 
-using Application.Models;
-using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Product = Application.Models.Product;
 
 [Route("api/products"), ApiController]
 public class ProductController : ControllerBase
@@ -17,11 +16,11 @@ public class ProductController : ControllerBase
 
     // POST: api/products
     [HttpPost]
-    public async Task<ActionResult> AddAsync([FromBody] ProductDto productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> AddAsync([FromBody] Application.Models.Product productDto, CancellationToken cancellationToken)
     {
         Console.WriteLine($"Received productDto: {productDto.Id}, {productDto.Name}, {productDto.Price}");
 
-        var product = new Product
+        var product = new Domain.Entities.Product
         {
             Id = productDto.Id,
             Name = productDto.Name,
@@ -53,11 +52,11 @@ public class ProductController : ControllerBase
 
     // GET: api/products
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<Application.Models.Product>>> GetAllAsync(CancellationToken cancellationToken)
     {
         var products = await this.productRepository.GetAllAsync(cancellationToken);
 
-        var productDtos = products.Select(p => new ProductDto
+        var product = products.Select(p => new Product
         {
             Id = p.Id,
             Name = p.Name,
@@ -66,12 +65,12 @@ public class ProductController : ControllerBase
             ValidTo = p.ValidTo,
         }).ToList();
 
-        return this.Ok(productDtos);
+        return this.Ok(product);
     }
 
     // GET: api/products/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult<Application.Models.Product>> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         var product = await this.productRepository.GetAsync(id, cancellationToken);
 
@@ -80,7 +79,7 @@ public class ProductController : ControllerBase
             return this.NotFound();
         }
 
-        var productDto = new ProductDto
+        var productDto = new Application.Models.Product
         {
             Id = product.Id,
             Name = product.Name,
@@ -94,11 +93,11 @@ public class ProductController : ControllerBase
 
     // GET: api/products/{id}/history
     [HttpGet("{id}/history")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<Application.Models.Product>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
     {
         var history = await this.productRepository.GetHistoryAsync(id, cancellationToken);
 
-        var historyDtos = history.Select(p => new ProductDto
+        var historyDtos = history.Select(p => new Product
         {
             Id = p.Id,
             Name = p.Name,
@@ -112,7 +111,7 @@ public class ProductController : ControllerBase
 
     // PUT: api/products/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductDto productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] Application.Models.Product productDto, CancellationToken cancellationToken)
     {
         var existingProduct = await this.productRepository.GetAsync(id, cancellationToken);
 
@@ -121,7 +120,7 @@ public class ProductController : ControllerBase
             return this.NotFound();
         }
 
-        var product = new Product
+        var product = new Domain.Entities.Product
         {
             Id = id,
             Name = productDto.Name,
