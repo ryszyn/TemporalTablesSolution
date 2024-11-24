@@ -81,9 +81,9 @@ public class ProductController : ControllerBase
 
     // PUT: api/products/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductResult productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductResult product, CancellationToken cancellationToken)
     {
-        var command = new UpdateProductCommand(id, productDto.Name, productDto.Price);
+        var command = new UpdateProductCommand(id, product.Name, product.Price);
 
         var result = await this.mediator.Send(command, cancellationToken);
 

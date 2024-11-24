@@ -84,11 +84,11 @@ internal sealed class ProductRepository : IProductRepository
                 [Id] = @Id;
         """;
 
-    private readonly string connectionString;
+    private readonly string? connectionString;
 
     private readonly IDbEngine dbEngine;
 
-    public ProductRepository(IDbEngine dbEngine, string connectionString)
+    public ProductRepository(IDbEngine dbEngine, string? connectionString)
     {
         this.dbEngine = dbEngine;
         this.connectionString = connectionString;

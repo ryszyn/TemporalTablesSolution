@@ -1,4 +1,6 @@
-﻿using Application.Queries;
+﻿namespace Application.Handlers;
+
+using Application.Queries;
 using Application.QueryResults;
 using Domain.Interfaces;
 using MediatR;

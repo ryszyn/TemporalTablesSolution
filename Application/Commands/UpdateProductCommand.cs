@@ -2,4 +2,4 @@
 
 using MediatR;
 
-public record UpdateProductCommand(Guid ProductId, string Name, decimal Price) : IRequest<bool>;
+public record UpdateProductCommand(Guid ProductId, string? Name, decimal Price) : IRequest<bool>;

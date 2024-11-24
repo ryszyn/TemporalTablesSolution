@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 public class DbEngine : IDbEngine
 {
-    public async Task<int> ExecuteAsync(string connectionString, string command, object? parameters = null, CancellationToken cancellationToken = default)
+    public async Task<int> ExecuteAsync(string? connectionString, string command, object? parameters = null, CancellationToken cancellationToken = default)
     {
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(cancellationToken);
@@ -13,7 +13,7 @@ public class DbEngine : IDbEngine
         return await connection.ExecuteAsync(command, parameters);
     }
 
-    public async Task<T?> FirstOrDefaultAsync<T>(string connectionString, string commandText, object parameters = null, CancellationToken cancellationToken = default)
+    public async Task<T?> FirstOrDefaultAsync<T>(string? connectionString, string commandText, object? parameters = null, CancellationToken cancellationToken = default)
     {
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(cancellationToken);
@@ -23,7 +23,7 @@ public class DbEngine : IDbEngine
         return result.FirstOrDefault();
     }
 
-    public async Task<IEnumerable<T>> QueryAsync<T>(string connectionString, string commandText, object? parameters = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<T>> QueryAsync<T>(string? connectionString, string commandText, object? parameters = null, CancellationToken cancellationToken = default)
     {
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(cancellationToken);
