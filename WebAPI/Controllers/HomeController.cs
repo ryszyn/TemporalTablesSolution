@@ -1,10 +1,11 @@
 ﻿namespace WebAPI.Controllers;
 
 using Application.Commands;
+using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Product = Application.QueryResults.Product;
+using ProductResult = Application.QueryResults.Product;
 
 [Route("api/products"), ApiController]
 public class ProductController : ControllerBase
@@ -33,23 +34,23 @@ public class ProductController : ControllerBase
 
     // DELETE: api/products/{id}
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteAsync(DeleteProduct deleteProduct, CancellationToken cancellationToken)
     {
-        var product = await this.productRepository.GetAsync(id, cancellationToken);
+        var product = await this.productRepository.GetAsync(deleteProduct.Id, cancellationToken);
 
         if (product == null)
         {
             return this.NotFound();
         }
 
-        await this.productRepository.DeleteAsync(id, cancellationToken);
+        await this.productRepository.DeleteAsync(deleteProduct.Id, cancellationToken);
 
         return this.NoContent();
     }
 
     // GET: api/products
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<ProductResult>>> GetAllAsync(CancellationToken cancellationToken)
     {
         var products = await this.productRepository.GetAllAsync(cancellationToken);
 
@@ -67,7 +68,7 @@ public class ProductController : ControllerBase
 
     // GET: api/products/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductResult>> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         var product = await this.productRepository.GetAsync(id, cancellationToken);
 
@@ -90,7 +91,7 @@ public class ProductController : ControllerBase
 
     // GET: api/products/{id}/history
     [HttpGet("{id}/history")]
-    public async Task<ActionResult<IEnumerable<Product>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<ProductResult>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
     {
         var history = await this.productRepository.GetHistoryAsync(id, cancellationToken);
 
@@ -108,7 +109,7 @@ public class ProductController : ControllerBase
 
     // PUT: api/products/{id}
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] Product productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductResult productDto, CancellationToken cancellationToken)
     {
         var existingProduct = await this.productRepository.GetAsync(id, cancellationToken);
 
