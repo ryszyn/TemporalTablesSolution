@@ -1,11 +1,11 @@
 namespace Application.Handlers;
 
+using Application.Queries;
 using Application.QueryResults;
 using Domain.Interfaces;
 using MediatR;
-using Product = Domain.Entities.Product;
 
-public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product?>
+public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, ProductResult?>
 {
     private readonly IProductRepository productRepository;
 
@@ -14,8 +14,24 @@ public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Produc
         this.productRepository = productRepository;
     }
 
-    public async Task<Product?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ProductResult?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
-        return await this.productRepository.GetAsync(request.Id, cancellationToken);
+        var product = await this.productRepository.GetAsync(request.Id, cancellationToken);
+
+        if (product == null)
+        {
+            return default;
+        }
+
+        var result = new ProductResult
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            ValidFrom = product.ValidFrom,
+            ValidTo = product.ValidTo,
+        };
+
+        return result;
     }
 }

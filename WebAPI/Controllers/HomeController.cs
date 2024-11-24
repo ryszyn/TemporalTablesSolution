@@ -69,16 +69,7 @@ public class ProductController : ControllerBase
             return this.NotFound();
         }
 
-        var productDto = new Product
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            ValidFrom = product.ValidFrom,
-            ValidTo = product.ValidTo,
-        };
-
-        return this.Ok(productDto);
+        return this.Ok(product);
     }
 
     // GET: api/products/{id}/history
