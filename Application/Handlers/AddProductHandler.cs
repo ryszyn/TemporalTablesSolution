@@ -18,6 +18,13 @@ internal sealed class AddProductHandler : IRequestHandler<AddProductCommand>
 
     public async Task Handle(AddProductCommand request, CancellationToken cancellationToken)
     {
+        var existingProduct = await this.repository.GetAsync(request.Id, cancellationToken);
+
+        if (existingProduct is not null)
+        {
+            throw new InvalidOperationException($"Product with ID {request.Id} already exists.");
+        }
+
         var product = new Product
         {
             Id = request.Id,
