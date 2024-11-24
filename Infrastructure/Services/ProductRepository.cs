@@ -1,7 +1,7 @@
 ﻿namespace Infrastructure.Repositories;
 
-using Application.Interfaces;
 using Domain.Entities;
+using Domain.Interfaces;
 using Infrastructure.Dapper;
 
 internal sealed class ProductRepository : IProductRepository

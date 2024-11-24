@@ -1,6 +1,7 @@
 ﻿namespace Infrastructure;
 
-using Application.Interfaces;
+using System.Reflection;
+using Domain.Interfaces;
 using Infrastructure.Dapper;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IDbEngine, DbEngine>();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 

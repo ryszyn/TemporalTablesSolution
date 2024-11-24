@@ -1,8 +1,8 @@
 ﻿namespace WebApi.Controllers;
 
-using Application.Interfaces;
 using Application.Models;
 using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/products"), ApiController]
