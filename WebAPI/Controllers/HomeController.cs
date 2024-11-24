@@ -21,7 +21,7 @@ public class ProductController : ControllerBase
 
     // POST: api/products
     [HttpPost]
-    public async Task<ActionResult> AddAsync([FromBody] AddProduct command, CancellationToken cancellationToken)
+    public async Task<ActionResult> AddAsync([FromBody] AddProductCommand command, CancellationToken cancellationToken)
     {
         Console.WriteLine($"Received AddProduct Command: {command.Id}, {command.Name}, {command.Price}");
 
@@ -34,7 +34,7 @@ public class ProductController : ControllerBase
 
     // DELETE: api/products/{id}
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteAsync(DeleteProduct deleteProduct, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteAsync(DeleteProductCommand deleteProduct, CancellationToken cancellationToken)
     {
         var product = await this.productRepository.GetAsync(deleteProduct.Id, cancellationToken);
 
@@ -85,21 +85,14 @@ public class ProductController : ControllerBase
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] ProductResult productDto, CancellationToken cancellationToken)
     {
-        var existingProduct = await this.productRepository.GetAsync(id, cancellationToken);
+        var command = new UpdateProductCommand(id, productDto.Name, productDto.Price);
 
-        if (existingProduct == null)
+        var result = await this.mediator.Send(command, cancellationToken);
+
+        if (!result)
         {
             return this.NotFound();
         }
-
-        var product = new Domain.Entities.Product
-        {
-            Id = id,
-            Name = productDto.Name,
-            Price = productDto.Price,
-        };
-
-        await this.productRepository.UpdateAsync(product, cancellationToken);
 
         return this.NoContent();
     }

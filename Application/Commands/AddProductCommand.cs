@@ -3,7 +3,7 @@
 using System.Text.Json.Serialization;
 using MediatR;
 
-public sealed record AddProduct : IRequest
+public sealed record AddProductCommand : IRequest
 {
     [JsonPropertyName("id")]
     public required Guid Id { get; init; }

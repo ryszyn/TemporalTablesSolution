@@ -4,7 +4,7 @@ using Application.Commands;
 using Domain.Interfaces;
 using MediatR;
 
-internal sealed class DeleteProductHandler : IRequestHandler<DeleteProduct>
+internal sealed class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
 {
     private readonly IPublisher mediator;
     private readonly IProductRepository repository;
@@ -15,9 +15,9 @@ internal sealed class DeleteProductHandler : IRequestHandler<DeleteProduct>
         this.repository = repository;
     }
 
-    public async Task Handle(DeleteProduct request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
-        var deleteProduct = new DeleteProduct
+        var deleteProduct = new DeleteProductCommand
         {
             Id = request.Id,
         };

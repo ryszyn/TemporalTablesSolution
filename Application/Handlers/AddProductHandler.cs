@@ -5,7 +5,7 @@ using Domain.Interfaces;
 using MediatR;
 using Product = Domain.Entities.Product;
 
-internal sealed class AddProductHandler : IRequestHandler<AddProduct>
+internal sealed class AddProductHandler : IRequestHandler<AddProductCommand>
 {
     private readonly IPublisher mediator;
     private readonly IProductRepository repository;
@@ -16,7 +16,7 @@ internal sealed class AddProductHandler : IRequestHandler<AddProduct>
         this.repository = repository;
     }
 
-    public async Task Handle(AddProduct request, CancellationToken cancellationToken)
+    public async Task Handle(AddProductCommand request, CancellationToken cancellationToken)
     {
         var product = new Product
         {
