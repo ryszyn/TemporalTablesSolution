@@ -1,6 +1,6 @@
 namespace Application.Queries;
 
-using Application.Models;
+using Application.QueryResults;
 using MediatR;
 
 public record GetProductByIdQuery(int Id) : IRequest<Product>;

@@ -1,8 +1,9 @@
 namespace Application.Handlers;
 
-using Domain.Entities;
+using Application.QueryResults;
 using Domain.Interfaces;
 using MediatR;
+using Product = Domain.Entities.Product;
 
 public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product?>
 {

@@ -1,4 +1,4 @@
-﻿namespace Application.Models;
+﻿namespace Application.QueryResults;
 
 public class Product
 {

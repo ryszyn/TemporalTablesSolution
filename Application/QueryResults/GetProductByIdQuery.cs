@@ -1,7 +1,8 @@
-using Domain.Entities;
 using MediatR;
 
-public class GetProductByIdQuery : IRequest<Product>
+namespace Application.QueryResults;
+
+public class GetProductByIdQuery : IRequest<Domain.Entities.Product>
 {
     public Guid Id { get; set; }
 

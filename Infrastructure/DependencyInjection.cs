@@ -3,7 +3,7 @@
 using System.Reflection;
 using Domain.Interfaces;
 using Infrastructure.Dapper;
-using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
