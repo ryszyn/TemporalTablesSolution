@@ -3,7 +3,6 @@
 using Application.Commands;
 using Application.Queries;
 using Application.QueryResults;
-using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -76,18 +75,10 @@ public class ProductController : ControllerBase
     [HttpGet("{id}/history")]
     public async Task<ActionResult<IEnumerable<ProductResult>>> GetHistoryAsync(Guid id, CancellationToken cancellationToken)
     {
-        var history = await this.productRepository.GetHistoryAsync(id, cancellationToken);
+        var query = new GetProductHistoryQuery(id);
+        var history = await this.mediator.Send(query, cancellationToken);
 
-        var historyDtos = history.Select(p => new Product
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = p.Price,
-            ValidFrom = p.ValidFrom,
-            ValidTo = p.ValidTo,
-        }).ToList();
-
-        return this.Ok(historyDtos);
+        return this.Ok(history);
     }
 
     // PUT: api/products/{id}
