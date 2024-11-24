@@ -1,11 +1,11 @@
 ﻿namespace WebAPI.Controllers;
 
 using Application.Commands;
+using Application.QueryResults;
 using Domain.Entities;
 using Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ProductResult = Application.QueryResults.Product;
 
 [Route("api/products"), ApiController]
 public class ProductController : ControllerBase
@@ -25,7 +25,7 @@ public class ProductController : ControllerBase
     {
         Console.WriteLine($"Received AddProduct Command: {command.Id}, {command.Name}, {command.Price}");
 
-        //TODO: warto sprawdzic, czy taki produkt juz istnieje...
+        //TODO: warto sprawdzic, czy taki produkt juz istnieje... jeśli tak - rzucić wyjątkiem
 
         await this.mediator.Send(command, cancellationToken);
 
