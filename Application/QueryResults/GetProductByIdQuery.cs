@@ -1,6 +1,6 @@
-using MediatR;
-
 namespace Application.QueryResults;
+
+using MediatR;
 
 public class GetProductByIdQuery : IRequest<Domain.Entities.Product>
 {
