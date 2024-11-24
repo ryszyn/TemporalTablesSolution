@@ -1,35 +1,32 @@
 ﻿namespace WebAPI.Controllers;
 
+using Application.Commands;
 using Domain.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Product = Application.QueryResults.Product;
 
 [Route("api/products"), ApiController]
 public class ProductController : ControllerBase
 {
+    private readonly IMediator mediator;
     private readonly IProductRepository productRepository;
 
-    public ProductController(IProductRepository productRepository)
+    public ProductController(IMediator mediator, IProductRepository productRepository)
     {
+        this.mediator = mediator;
         this.productRepository = productRepository;
     }
 
     // POST: api/products
     [HttpPost]
-    public async Task<ActionResult> AddAsync([FromBody] Product productDto, CancellationToken cancellationToken)
+    public async Task<ActionResult> AddAsync([FromBody] AddProduct command, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"Received productDto: {productDto.Id}, {productDto.Name}, {productDto.Price}");
+        Console.WriteLine($"Received AddProduct Command: {command.Id}, {command.Name}, {command.Price}");
 
-        var product = new Domain.Entities.Product
-        {
-            Id = productDto.Id,
-            Name = productDto.Name,
-            Price = productDto.Price,
-        };
+        //TODO: warto sprawdzic, czy taki produkt juz istnieje...
 
-        await this.productRepository.AddAsync(product, cancellationToken);
-
-        var name = nameof(this.AddAsync);
+        await this.mediator.Send(command, cancellationToken);
 
         return this.Created();
     }
